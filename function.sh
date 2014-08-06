@@ -2,7 +2,7 @@
 # File Name : function.sh
 # Purpose :all function
 # Creation Date : 03-08-2014
-# Last Modified : Sun 03 Aug 2014 06:36:25 AM CST
+# Last Modified : Wed 06 Aug 2014 11:03:02 AM CST
 # Release By : Doom.zhou
 
 #Function 1
@@ -22,4 +22,7 @@ dec2ip () {
     done
     printf '%s\n' "$ip"
 }
+pass2 () {
+        echo $1-$2 | sha1sum | base64 | head -c 20 | sed -n 's/[13579a-h]/\%/p' | sed -n 's/[13579a-h]/\@/p'
+}   #second pass gen
 
