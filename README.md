@@ -3,5 +3,4 @@ doom
 
 doom's shell
 
-title
------
+# del sth

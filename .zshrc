@@ -1,17 +1,16 @@
 cdls() { builtin cd $1 && ls; }
 f () { if [[ $1 =~ ^[0-9]$ ]];then c_t=`ls -l | grep "^-" | awk -v tt=$1 'NR==tt+1{print$9}'`; elif [[ $1 =~ l[0-9] ]];then l1=`echo $1 |cut -c2`; c_t=`ls -l | grep "^-" | awk -v tt=$l1 '{a[NR]=$9}END{print a[NR-tt]}'`; else c_t=`ls -l | grep "^-" | awk '{print$9}' |grep "$1" |  awk 'NR==1{print$0}'`; fi; echo $c_t; }
-d () { if [[ $1 =~ ^[0-9]$ ]];then c_t=`ls -l | grep "^d" | awk -v tt=$1 'NR==tt+1{print$9}'`; elif [[ $1 =~ l[0-9] ]];then l1=`echo $1 |cut -c2`; c_t=`ls -l | grep "^d" | awk -v tt=$l1 '{a[NR]=$9}END{print a[NR-tt]}'`; else c_t=`ls -l | grep "^d" | awk '{print$9}' |grep "$1" |  awk 'NR==1{print$0}'`; fi; echo $c_t; }
-pass () { echo $1-$2 | md5sum | sha1sum | awk -F '[1a2b]' '{for (i=1;i<=NF;i++) if ( length($i)>= 6) print$i}' | sed -n '1p' | sed -n 's/[3c]/\%/gp'}
-dirsha1sum () {echo $(find $1 -type f |wc | awk 'BEGIN{OFS="";}{print$1$2$3}') $(find $1 -type f  | xargs md5sum | awk '{printf$1};END{print""}' | md5sum) |sha1sum ;}
+dl () { if [[ $1 =~ ^[0-9]$ ]];then c_t=`ls -l | grep "^d" | awk -v tt=$1 'NR==tt+1{print$9}'`; elif [[ $1 =~ l[0-9] ]];then l1=`echo $1 |cut -c2`; c_t=`ls -l | grep "^d" | awk -v tt=$l1 '{a[NR]=$9}END{print a[NR-tt]}'`; else c_t=`ls -l | grep "^d" | awk '{print$9}' |grep "$1" |  awk 'NR==1{print$0}'`; fi; echo $c_t; }
+dirsha1sum () {echo -e $(find $1 -type f |wc | awk 'BEGIN{OFS="";}{print$1$2$3}') $(find $1 -type f | sort | head -10 | xargs md5sum | awk '{printf$1};END{print""}' | md5sum) |sha1sum ;}
 
-alias doom='ssh -p 6333 root@101.95.155.238'
-alias zlfnetSs='netstat -ntlp | grep $1'
-alias zlfpsS='ps -ef | grep $1'
-alias pub='ssh doom@222.73.122.247'
+alias o3='ssh root@192.168.10.3'
+alias o4='ssh root@192.168.10.4'
 alias godaddy='ssh -D 127.0.0.1:9050 doom@23.229.159.37'
-alias yunpa='ssh -D 127.0.0.1:9051 ops@doom.gohjkl.com'
-alias amazon='ssh -i ~/.ssh/amazon-dom.pem ec2-user@54.200.95.207' 
+alias yunpa='ssh -D 127.0.0.1:9051 ops@freemind.gohjkl.com'
 alias pafoffice='ssh -p 11122 shk.gohjkl.com'
+alias dvo='xmodmap ~/scripts/dvorak.pke'
+alias aaa='xmodmap ~/scripts/origin.pke'
+
 HISTFILESIZE=
 HISTSIZE=
 HISTTIMEFORMAT="[%F:%T] "
@@ -65,11 +64,11 @@ HIST_STAMPS="mm/dd/yyyy"
 plugins=(git)
 
 source $ZSH/oh-my-zsh.sh
-source ~/.bash_profile
 
 # User configuration
 
 export PATH=$HOME/bin:/usr/local/bin:$PATH
+export GOPATH=/opt/go
 # export MANPATH="/usr/local/man:$MANPATH"
 
 # # Preferred editor for local and remote sessions
@@ -84,5 +83,6 @@ export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # ssh
 # export SSH_KEY_PATH="~/.ssh/dsa_id"
+export EDITOR='vim'
 set -o vi
 #bindkey -v
